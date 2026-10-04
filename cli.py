@@ -5,6 +5,8 @@ import sys
 from entropy import characters_pool_size, families, naive_entropy
 from hibp import sha1_hash, pwned_count
 
+MIN_ENTROPY = 75
+
 def ask_password():
     try:
         password = getpass.getpass("Password: ")
@@ -28,11 +30,17 @@ def main(argv=None):
  
     entropy = naive_entropy(password)
 
-    print("Entropy = " + str(entropy))
-    if entropy < 75:
+    print(f"Entropy: {entropy:.1f} bits")
+    if entropy < MIN_ENTROPY:
         print("You should try a password with more entropy, less than 75 is not secure enought")
 
-    print("Seen " + str(pwned_count(password)) + " times in known data breaches.")
+    times_pwned= pwned_count(password)
+
+    if times_pwned > 0:
+        print(f"Seen {times_pwned:,} times in known data breaches.")
+        print("Do not use this password.")
+    else:
+        print("Not found in known data breaches.")
 
     return 0
 
