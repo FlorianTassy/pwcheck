@@ -3,7 +3,7 @@ import getpass
 import sys
 
 from entropy import characters_pool_size, families, naive_entropy
-from hibp import hash 
+from hibp import hash,password_range, fetch_range 
 
 def ask_password():
     try:
@@ -33,7 +33,7 @@ def main(argv=None):
     if entropy < 75:
         print("You should try a password with more entropy, less than 75 is not secure enought")
 
-    print(hash(password))
+    print(fetch_range(password))
 
     return 0
 
