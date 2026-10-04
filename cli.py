@@ -3,7 +3,7 @@ import getpass
 import sys
 
 from entropy import characters_pool_size, families, naive_entropy
-from hibp import hash,password_range, fetch_range 
+from hibp import sha1_hash, pwned_count
 
 def ask_password():
     try:
@@ -26,14 +26,13 @@ def main(argv=None):
     if password is None:
         return 2
  
-    print(len(password))
     entropy = naive_entropy(password)
 
     print("Entropy = " + str(entropy))
     if entropy < 75:
         print("You should try a password with more entropy, less than 75 is not secure enought")
 
-    print(fetch_range(password))
+    print("Seen " + str(pwned_count(password)) + " times in known data breaches.")
 
     return 0
 
